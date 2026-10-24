@@ -1,0 +1,24 @@
+# Core LangChain stack
+langchain>=1.2.0,<2.0.0
+langchain-core>=1.6.10,<2.0.0
+langchain-openai>=1.0.0,<2.0.0
+
+# Google Gemini integration
+langchain-google-genai>=4.4.2,<5.0.0
+
+# LangGraph for agent orchestration
+langgraph>=1.0.0,<2.0.0
+
+# MCP integration
+mcp>=1.0.0
+langchain-mcp-adapters>=0.1.0
+
+# Data validation
+pydantic>=2.6.0,<3.0.0
+pydantic-settings>=2.2.0,<3.0.0
+
+# Environment loading
+python-dotenv>=1.0.0
+
+# Observability
+langsmith>=0.1.100

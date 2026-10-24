@@ -1,0 +1,127 @@
+[
+  {
+    "scenario": {
+      "id": "1",
+      "name": "No tool needed",
+      "description": "The agent should answer directly from its own knowledge, with zero tool calls.",
+      "query": "What is the capital of France? Answer in one short sentence."
+    },
+    "report": {
+      "query": "What is the capital of France? Answer in one short sentence.",
+      "final_response": "The capital of France is Paris.",
+      "llm_calls": [
+        {
+          "model": "gemini-3.1-flash-lite",
+          "input_tokens": 2233,
+          "output_tokens": 7,
+          "total_tokens": 2240,
+          "duration_seconds": 21.187
+        }
+      ],
+      "tool_calls": [],
+      "total_input_tokens": 2233,
+      "total_output_tokens": 7,
+      "total_tokens": 2240,
+      "total_duration_seconds": 21.568
+    }
+  },
+  {
+    "scenario": {
+      "id": "2",
+      "name": "Clear tool call",
+      "description": "The agent should determine that an MCP tool is required and call it.",
+      "query": "List all files in the sandbox root directory."
+    },
+    "report": {
+      "query": "List all files in the sandbox root directory.",
+      "final_response": "The files in the sandbox root directory are:\n\n*   notes.md\n*   sample.txt",
+      "llm_calls": [
+        {
+          "model": "gemini-3.1-flash-lite",
+          "input_tokens": 2229,
+          "output_tokens": 16,
+          "total_tokens": 2245,
+          "duration_seconds": 11.725
+        },
+        {
+          "model": "gemini-3.1-flash-lite",
+          "input_tokens": 2321,
+          "output_tokens": 21,
+          "total_tokens": 2342,
+          "duration_seconds": 1.575
+        }
+      ],
+      "tool_calls": [
+        {
+          "name": "list_directory",
+          "server": "filesystem",
+          "arguments": "{'path': '.'}",
+          "output": "content=[{'type': 'text', 'text': '[FILE] notes.md\\n[FILE] sample.txt', 'id': 'lc_95293e5c-3a10-411e-ac68-b8e8d164ed8d'}] name='list_directory' tool_call_id='call_770774' artifact={'structured_content': {'content': '[FILE] notes.md\\n[FILE] sample.txt'}}",
+          "duration_seconds": 2.783,
+          "is_error": false
+        }
+      ],
+      "total_input_tokens": 4550,
+      "total_output_tokens": 37,
+      "total_tokens": 4587,
+      "total_duration_seconds": 16.116
+    }
+  },
+  {
+    "scenario": {
+      "id": "3",
+      "name": "Multi-tool chaining across MCP servers",
+      "description": "The agent should pick the right tool from two different MCP servers and chain them.",
+      "query": "Get the current time in UTC, then write a file called 'timestamp.txt' in the sandbox containing exactly that timestamp. Confirm when done."
+    },
+    "report": {
+      "query": "Get the current time in UTC, then write a file called 'timestamp.txt' in the sandbox containing exactly that timestamp. Confirm when done.",
+      "final_response": "The current time in UTC is 2026-10-24T12:25:52+00:00. I have successfully written this timestamp to the file 'timestamp.txt'.",
+      "llm_calls": [
+        {
+          "model": "gemini-3.1-flash-lite",
+          "input_tokens": 2249,
+          "output_tokens": 18,
+          "total_tokens": 2267,
+          "duration_seconds": 6.431
+        },
+        {
+          "model": "gemini-3.1-flash-lite",
+          "input_tokens": 2395,
+          "output_tokens": 48,
+          "total_tokens": 2443,
+          "duration_seconds": 1.966
+        },
+        {
+          "model": "gemini-3.1-flash-lite",
+          "input_tokens": 2510,
+          "output_tokens": 47,
+          "total_tokens": 2557,
+          "duration_seconds": 13.504
+        }
+      ],
+      "tool_calls": [
+        {
+          "name": "get_current_time",
+          "server": "time",
+          "arguments": "{'timezone': 'UTC'}",
+          "output": "content=[{'type': 'text', 'text': '{\\n  \"timezone\": \"UTC\",\\n  \"datetime\": \"2026-10-24T12:25:52+00:00\",\\n  \"day_of_week\": \"Saturday\",\\n  \"is_dst\": false\\n}', 'id': 'lc_48394ad4-c8db-4641-a9e5-0b1131f481e7'}] name='get_current_time' tool_call_id='call_720931' artifact={'structured_content': {'timezone': 'UTC', 'datetime': '2026-10-24T12:25:52+00:00', 'day_of_week': 'Saturday', 'is_dst': False}}",
+          "duration_seconds": 2.354,
+          "is_error": false
+        },
+        {
+          "name": "write_file",
+          "server": "filesystem",
+          "arguments": "{'content': '2026-10-24T12:25:52+00:00', 'path': 'timestamp.txt'}",
+          "output": "content=[{'type': 'text', 'text': 'Successfully wrote to timestamp.txt', 'id': 'lc_df759158-f0c8-4f47-9bac-f7386ff40d31'}] name='write_file' tool_call_id='call_828153' artifact={'structured_content': {'content': 'Successfully wrote to timestamp.txt'}}",
+          "duration_seconds": 3.024,
+          "is_error": false
+        }
+      ],
+      "total_input_tokens": 7154,
+      "total_output_tokens": 113,
+      "total_tokens": 7267,
+      "total_duration_seconds": 27.329
+    }
+  }
+]
