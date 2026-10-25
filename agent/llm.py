@@ -1,12 +1,9 @@
 """LLM factory.
 
 Isolated in its own module so swapping the model (or the provider entirely)
-is a one-file change -- a common ask in the follow-up discussion round.
+is a one-file change.
 """
 
-# from langchain_openai import ChatOpenAI
-
-# from agent.schemas import Settings
 
 from langchain_google_genai import ChatGoogleGenerativeAI
 from agent.schemas import Settings
@@ -35,31 +32,3 @@ def build_llm(settings: Settings) -> ChatGoogleGenerativeAI:
         max_retries=2,
     )
 
-
-# def build_llm(settings: Settings) -> ChatOpenAI:
-#     """Build a ChatOpenAI client pointed at the HuggingFace Inference Providers router.
-
-#     Why ChatOpenAI and not ChatHuggingFace?
-#     HuggingFace exposes an OpenAI-compatible endpoint at `router.huggingface.co/v1`,
-#     which lets us use the battle-tested `langchain-openai` client with open-source
-#     models like Qwen 2.5 or Llama 3.3. For tool calling specifically this path is
-#     more reliable than ChatHuggingFace because the OpenAI protocol is the native
-#     tool-call format for these models' serving backends (Sambanova, Together,
-#     Fireworks, etc.) -- one fewer translation layer.
-
-#     Args:
-#         settings: Validated Settings instance (from agent.schemas).
-
-#     Returns:
-#         A configured ChatOpenAI ready for `.bind_tools()` and `.ainvoke()`.
-#     """
-#     return ChatOpenAI(
-#         model=settings.model_name,
-#         api_key=settings.hf_token,
-#         base_url=settings.model_base_url,
-#         temperature=settings.temperature,
-#         max_tokens=settings.max_tokens,
-#         # Timeouts help with occasional slow routes through HF providers.
-#         timeout=60,
-#         max_retries=2,
-#     )

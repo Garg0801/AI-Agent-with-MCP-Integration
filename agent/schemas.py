@@ -21,8 +21,7 @@ class Settings(BaseSettings):
     """Application settings loaded from environment variables and the .env file.
 
     pydantic-settings handles the loading, type coercion, and validation
-    automatically. If HF_TOKEN is missing, startup fails fast with a clear
-    error - much better than discovering it mid-run.
+    automatically.
     """
 
     model_config = SettingsConfigDict(
@@ -32,19 +31,9 @@ class Settings(BaseSettings):
         case_sensitive=False,
     )
 
-    # HuggingFace / model configuration
-    # hf_token: str = Field(..., description="HuggingFace API token for the Inference Providers router.")
-    # model_name: str = Field(
-    #     default="Qwen/Qwen2.5-72B-Instruct",
-    #     description="Model ID on HuggingFace Hub.",
-    # )
-    # model_base_url: str = Field(
-    #     default="https://router.huggingface.co/v1",
-    #     description="OpenAI-compatible endpoint URL (HF router by default).",
-    # )
     google_api_key: str = Field(..., description="Google AI (Gemini) API Key")
 
-    model_name: str = Field(default="gemini-2.5-flash",
+    model_name: str = Field(default="gemini-3.1-flash-lite",
                             description="Gemini model name",)
     temperature: float = Field(default=0.1, ge=0.0, le=2.0)
     max_tokens: int = Field(default=1024, gt=0)

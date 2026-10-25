@@ -1,8 +1,6 @@
 """System prompt(s) for the agent.
 
 Kept in its own module so it can be edited independently of the agent code.
-This matters for the follow-up discussion round, where the reviewer may ask
-you to modify agent behavior without touching the graph structure.
 """
 
 SYSTEM_PROMPT = """You are a helpful AI assistant with access to tools exposed by MCP (Model Context Protocol)

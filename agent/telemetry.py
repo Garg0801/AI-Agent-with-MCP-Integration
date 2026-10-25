@@ -5,13 +5,6 @@ call made during a graph run. All data goes into Pydantic records, so the
 final report can be printed to the console AND dumped to JSON for the
 submission artifacts.
 
-The assessment specifically asks for:
-- Input tokens, output tokens, total tokens
-- MCP server and tool used
-- Tool input and output
-- Execution time
-
-This module captures all of the above per call and in aggregate.
 """
 
 import time
@@ -229,11 +222,7 @@ class TelemetryCallbackHandler(BaseCallbackHandler):
         )
 
     def print_report(self, report: RunReport, console: Optional[Console] = None) -> None:
-        """Render a RunReport to the console using rich tables and panels.
-
-        This is what the reviewer sees when they run the script. It satisfies
-        the assessment's requirement to "capture and display" telemetry.
-        """
+        """Render a RunReport to the console using rich tables and panels."""
         console = console or Console()
         console.print(Panel(report.final_response, title="[bold green]Final Response[/bold green]"))
 
